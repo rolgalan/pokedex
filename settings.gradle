@@ -1,1 +1,1 @@
-include ':app', ':model', ':server'
+include ':app', ':model', ':server', ':provider'
