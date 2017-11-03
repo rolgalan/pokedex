@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 26
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+
+}
+
+final STETHO_VERSION = '1.5.0'
+final GSON_VERSION = '2.8.1'
+final RETROFIT_VERSION = '2.3.0'
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    compile "com.google.code.gson:gson:${GSON_VERSION}"
+    compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
+    compile "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
+
+    //Stetho helps debugging requests TODO - Convert to debugCompile
+    compile "com.facebook.stetho:stetho:$STETHO_VERSION"
+    compile "com.facebook.stetho:stetho-okhttp3:$STETHO_VERSION"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
+}
