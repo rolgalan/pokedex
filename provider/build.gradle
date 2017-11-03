@@ -25,24 +25,20 @@ android {
 }
 
 final MOCKITO_VERSION = '2.10.0'
-final SUPPORT_VERSION = '26.0.0-alpha1'
+final SUPPORT_VERSION = '26.1.0'
 
 dependencies {
     testImplementation 'junit:junit:4.12'
 
+    implementation "com.android.support:support-annotations:${SUPPORT_VERSION}"
 
-    compile "com.android.support:support-annotations:${SUPPORT_VERSION}"
+    implementation project(path: ':model')
+    implementation project(path: ':server')
 
-    compile project(path: ':model')
-    compile project(path: ':server')
-
-    androidTestImplementation ('com.android.support.test.espresso:espresso-core:3.0.1'){
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-
-    testCompile "org.mockito:mockito-core:${MOCKITO_VERSION}"
-    testCompile "org.mockito:mockito-all:2.0.2-beta"
-    androidTestCompile "org.mockito:mockito-android:${MOCKITO_VERSION}"
+    testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
+    testImplementation "org.mockito:mockito-all:2.0.2-beta"
+    androidTestImplementation "org.mockito:mockito-android:${MOCKITO_VERSION}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {
     mavenCentral()
