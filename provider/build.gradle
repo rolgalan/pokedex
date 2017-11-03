@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 26
@@ -42,4 +43,7 @@ dependencies {
     testCompile "org.mockito:mockito-core:${MOCKITO_VERSION}"
     testCompile "org.mockito:mockito-all:2.0.2-beta"
     androidTestCompile "org.mockito:mockito-android:${MOCKITO_VERSION}"
+}
+repositories {
+    mavenCentral()
 }
