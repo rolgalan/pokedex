@@ -9,7 +9,6 @@ data class Pokemon(
         val name: String,
         val baseExperience: Int,
         val height: Int,
-        val isDefault: Boolean,
         val order: Int,
         val weight: Int,
         val types: List<PokemonType>,
@@ -29,9 +28,7 @@ data class Pokemon(
 
 data class PokemonSprites(
         val backDefault: String,
-        val frontDefault: String,
-        val backFemale: String,
-        val frontFemale: String
+        val frontDefault: String
 )
 
 data class PokemonType(

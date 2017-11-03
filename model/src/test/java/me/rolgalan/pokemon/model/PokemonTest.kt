@@ -11,8 +11,8 @@ class PokemonTest {
     fun createPokemon(typeName: String = "type-name", frontImage: String = "front-image"): Pokemon {
         val named = NamedApiResource(typeName, "url")
         val type = PokemonType(2, named)
-        val sprites = PokemonSprites("back", frontImage, "backF", "frontF")
-        return Pokemon(1, "name", 10, 6, true, 8, 12, listOf(type), sprites)
+        val sprites = PokemonSprites("back", frontImage)
+        return Pokemon(1, "name", 10, 6, 8, 12, listOf(type), sprites)
     }
 
     @Test
@@ -32,8 +32,8 @@ class PokemonTest {
      */
     @Test
     fun testType_emptyTypeList() {
-        val sprites = PokemonSprites("back", "front-image", "backF", "frontF")
-        val pok = Pokemon(1, "name", 10, 6, true, 8, 12, emptyList(), sprites)
+        val sprites = PokemonSprites("back", "front-image")
+        val pok = Pokemon(1, "name", 10, 6, 8, 12, emptyList(), sprites)
 
         assertEquals("", pok.getType())
     }
