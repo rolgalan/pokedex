@@ -14,7 +14,9 @@ import me.rolgalan.pokemon.server.ApiManager
 class DataProvider private constructor() {
 
     //Cached backpack
-    val backpack = Backpack()
+    private val backpack = Backpack()
+    //TODO This value shouldn't be hardcoded -> It should be asked to the server
+    private val TOTAL_POKEMON = 949
 
     private object Holder {
         val INSTANCE = DataProvider()
@@ -22,6 +24,11 @@ class DataProvider private constructor() {
 
     companion object {
         val instance: DataProvider by lazy { Holder.INSTANCE }
+    }
+
+    fun getNewRandomPokemon(listener: DataInterface<Pokemon>) {
+        val id = 1 + Math.floor(Math.random() * TOTAL_POKEMON).toInt()
+        getNewPokemon(id, listener)
     }
 
     fun getNewPokemon(id: Int, listener: DataInterface<Pokemon>) {
@@ -34,7 +41,7 @@ class DataProvider private constructor() {
         listener.onReceived(backpack)
     }
 
-    fun catchPokemon(pokemon : Pokemon, listener: DataInterface<Boolean>) {
+    fun catchPokemon(pokemon: Pokemon, listener: DataInterface<Boolean>) {
         getBackpack(
                 object : DataInterface<Backpack> {
                     override fun onReceived(data: Backpack) {
@@ -49,7 +56,7 @@ class DataProvider private constructor() {
                 })
     }
 
-    fun hasPokemonInBackpack(id : Int, listener: DataInterface<Boolean>) {
+    fun hasPokemonInBackpack(id: Int, listener: DataInterface<Boolean>) {
         getBackpack(
                 object : DataInterface<Backpack> {
                     override fun onReceived(data: Backpack) {
