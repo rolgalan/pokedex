@@ -12,23 +12,23 @@ data class Pokemon(
         val order: Int,
         val weight: Int,
         val types: List<PokemonType>,
-        val sprites: PokemonSprites) {
+        val sprites: PokemonSprites?) {
 
-    fun getFrontImage(): String {
-        return sprites.frontDefault
+    fun getFrontImage(): String? {
+        return sprites?.frontDefault
     }
 
     fun getType(): String {
         if (types.isNotEmpty()) {
             return types[0].type.name
         }
-        return "";
+        return ""
     }
 }
 
 data class PokemonSprites(
-        val backDefault: String,
-        val frontDefault: String
+        val backDefault: String?,
+        val frontDefault: String?
 )
 
 data class PokemonType(

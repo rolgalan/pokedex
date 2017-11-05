@@ -25,7 +25,7 @@ abstract class DataBoundary<RETURN_TYPE, EXTERNAL_TYPE>(private val listener: Da
 
     fun listenerOnReceived(data: RETURN_TYPE) {
 
-        Log.e(TAG, "DataBoundary.listenerOnReceived " + data)
+        Log.d(TAG, "DataBoundary.listenerOnReceived " + data)
         listener?.onReceived(data)
     }
 }

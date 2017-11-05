@@ -17,14 +17,14 @@ public class PokemonBoundary(listener: DataInterface<Pokemon>?) : DataBoundary<P
     }
 
     fun mapPokemon(response: PokemonResponse): Pokemon {
-        val types = mapTypes(response.types);
-        val sprites = mapSprites(response.sprites);
+        val types = mapTypes(response.types)
+        val sprites = mapSprites(response?.sprites)
         return Pokemon(response.id, response.name, response.baseExperience, response.height,
                 response.order, response.weight, types, sprites)
     }
 
-    fun mapSprites(sprites: me.rolgalan.pokemon.server.model.PokemonSprites): PokemonSprites {
-        return PokemonSprites(sprites.backDefault, sprites.frontDefault)
+    fun mapSprites(sprites: me.rolgalan.pokemon.server.model.PokemonSprites?): PokemonSprites {
+        return PokemonSprites(sprites?.backDefault, sprites?.frontDefault)
     }
 
     fun mapTypes(types: List<me.rolgalan.pokemon.server.model.PokemonType>): List<PokemonType> {

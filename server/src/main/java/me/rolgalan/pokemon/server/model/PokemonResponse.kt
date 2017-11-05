@@ -17,14 +17,13 @@ data class PokemonResponse(
         val order: Int,
         val weight: Int,
         val types: List<PokemonType>,
-        val sprites: PokemonSprites) {
-}
+        val sprites: PokemonSprites?)
 
 data class PokemonSprites(
         @SerializedName("back_default")
-        val backDefault: String,
+        val backDefault: String?,
         @SerializedName("front_default")
-        val frontDefault: String,
+        val frontDefault: String?,
         @SerializedName("back_female")
         val backFemale: String?,
         @SerializedName("front_female")
