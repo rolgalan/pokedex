@@ -23,6 +23,7 @@ class ApiManager private constructor() {
      * Request a pokemon with an id and return it asynchronously through the listener ResponseInterface
      */
     public fun getPokemon(id: Int, listener: ResponseInterface<PokemonResponse>) {
+        Log.d("Request", "getPokemon $id")
         val call = RestClient.getClient().getPokemon(id)
         call.enqueue(MyCallback(listener))
     }
