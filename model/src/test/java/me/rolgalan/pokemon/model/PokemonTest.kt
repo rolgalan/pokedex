@@ -8,11 +8,11 @@ import org.junit.Test
  */
 class PokemonTest {
 
-    fun createPokemon(typeName: String = "type-name", frontImage: String = "front-image"): Pokemon {
+    fun createPokemon(id : Int = 1, typeName: String = "type-name", frontImage: String = "front-image"): Pokemon {
         val named = NamedApiResource(typeName, "url")
         val type = PokemonType(2, named)
         val sprites = PokemonSprites("back", frontImage)
-        return Pokemon(1, "name", 10, 6, 8, 12, listOf(type), sprites)
+        return Pokemon(id, "name", 10, 6, 8, 12, listOf(type), sprites)
     }
 
     @Test
