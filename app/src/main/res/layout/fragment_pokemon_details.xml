@@ -1,0 +1,66 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="me.rolgalan.pokemon.detail.PokemonDetailsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/pokemon_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#cccccc"
+            android:maxHeight="320dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/placeholder" />
+
+        <TextView
+            android:id="@+id/pokemon_name"
+            style="@style/TextDetailsName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            tools:text="Pokemon name" />
+
+        <me.rolgalan.pokemon.elements.LabelValueTextView
+            android:id="@+id/labelvalue_weight"
+            style="@style/DetailsLabelValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:label="Weight" />
+
+        <me.rolgalan.pokemon.elements.LabelValueTextView
+            android:id="@+id/labelvalue_height"
+            style="@style/DetailsLabelValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:label="Height" />
+
+        <me.rolgalan.pokemon.elements.LabelValueTextView
+            android:id="@+id/labelvalue_experience"
+            style="@style/DetailsLabelValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:label="Experience" />
+
+        <me.rolgalan.pokemon.elements.LabelValueTextView
+            android:id="@+id/labelvalue_captured"
+            style="@style/DetailsLabelValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:label="Captured" />
+
+        <me.rolgalan.pokemon.elements.LabelValueTextView
+            android:id="@+id/labelvalue_type"
+            style="@style/DetailsLabelValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:label="Type" />
+    </LinearLayout>
+</ScrollView>
