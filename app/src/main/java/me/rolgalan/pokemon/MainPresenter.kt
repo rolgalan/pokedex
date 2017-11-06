@@ -44,7 +44,7 @@ class MainPresenter(val view: MainView) {
                     }
 
                     override fun onError(error: String) {
-                        onServerError(error)
+                        onServerErrorNewPokemon(error)
                         Log.w("Pokemon", "getNewRandomPokemon error requesting data: $error")
                     }
                 }
@@ -97,6 +97,11 @@ class MainPresenter(val view: MainView) {
         view.showMsg(error)
     }
 
+    private fun onServerErrorNewPokemon(error: String) {
+        view.hideLoading()
+        view.showErrorNewPokemon(error)
+    }
+
     private fun onBackpackNotFound() {
         getNewPokemon()
     }
@@ -120,4 +125,5 @@ interface MainView {
     fun hideFab()
     fun showFab()
     fun showPokemonCatch(name: String)
+    fun showErrorNewPokemon(name: String)
 }

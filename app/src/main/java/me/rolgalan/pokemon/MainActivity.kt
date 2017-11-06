@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import me.rolgalan.pokemon.detail.PokemonDetailsFragment
 import me.rolgalan.pokemon.model.Backpack
 import me.rolgalan.pokemon.model.Pokemon
 
@@ -18,12 +19,9 @@ class MainActivity : AppCompatActivity(), MainView {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { catchPokemon() }
+        fab_ok.setOnClickListener { presenter.catchPokemon() }
+        fab_no.setOnClickListener { presenter.getNewPokemon() }
         presenter.prepareView()
-    }
-
-    private fun catchPokemon() {
-        presenter.catchPokemon()
     }
 
     override fun showLoading() {
@@ -45,23 +43,34 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun showPokemon(data: Pokemon) {
-        //TODO
-        showMsg("Show pokemon ${data.name} ($data.id)")
+        showMsg("A Wild ${data.name} appears!")
+        val manager = supportFragmentManager
+        val transaction = manager.beginTransaction()
+        transaction.replace(R.id.main_container, PokemonDetailsFragment.newInstance(data))
+        transaction.commit()
         showFab()
     }
 
     override fun hideFab() {
-        fab.visibility = View.GONE
-
+        fab_ok.visibility = View.GONE
+        fab_no.visibility = View.GONE
     }
 
     override fun showFab() {
-        fab.visibility = View.VISIBLE
+        fab_ok.visibility = View.VISIBLE
+        fab_no.visibility = View.VISIBLE
     }
 
     override fun showPokemonCatch(name: String) {
-        showMsg("You've catch " + name)
-        Snackbar.make(fab, "You've catch $name.\n Do you want to search for a new pokemon?", Snackbar.LENGTH_INDEFINITE)
+        showSnackbarToCatchNewPokemon("You've catch $name.\n Do you want to search for a new pokemon?")
+    }
+
+    override fun showErrorNewPokemon(error: String) {
+        showSnackbarToCatchNewPokemon("$error\n Do you want to search again?")
+    }
+
+    fun showSnackbarToCatchNewPokemon(msg: String) {
+        Snackbar.make(fab_ok, msg, Snackbar.LENGTH_INDEFINITE)
                 .setAction("Search!",
                         {
                             presenter.getNewPokemon()
