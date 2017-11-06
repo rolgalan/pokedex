@@ -111,7 +111,7 @@ class MainPresenter(val view: MainView) {
         if (data.isEmpty()) {
             onBackpackNotFound()
         } else {
-            view.showBackpack(data)
+            view.showBackpack()
         }
     }
 }
@@ -120,7 +120,7 @@ interface MainView {
     fun showLoading()
     fun showMsg(msg: String)
     fun hideLoading()
-    fun showBackpack(data: Backpack)
+    fun showBackpack()
     fun showPokemon(data: Pokemon)
     fun hideFab()
     fun showFab()

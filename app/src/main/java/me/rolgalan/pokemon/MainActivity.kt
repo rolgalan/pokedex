@@ -3,12 +3,15 @@ package me.rolgalan.pokemon
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import me.rolgalan.pokemon.backpack.PokemonListActivity
 import me.rolgalan.pokemon.detail.PokemonDetailsFragment
-import me.rolgalan.pokemon.model.Backpack
 import me.rolgalan.pokemon.model.Pokemon
+
 
 class MainActivity : AppCompatActivity(), MainView {
 
@@ -24,22 +27,38 @@ class MainActivity : AppCompatActivity(), MainView {
         presenter.prepareView()
     }
 
-    override fun showLoading() {
-        loading_spinner.visibility = View.VISIBLE
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
     }
 
-    override fun showMsg(msg: String) {
-        Snackbar.make(main_container, msg, Snackbar.LENGTH_LONG).show()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_backpack -> {
+                showBackpack()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun showLoading() {
+        loading_spinner.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
         loading_spinner.visibility = View.GONE
     }
 
-    override fun showBackpack(data: Backpack) {
-        //TODO
+    override fun showMsg(msg: String) {
+        Snackbar.make(main_container, msg, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showBackpack() {
         hideFab()
-        showMsg("Load backpack --> implement!")
+        startActivity(PokemonListActivity.newIntent(this))
+        showSnackbarToCatchNewPokemon("Do you want to search for new pokemons?")
     }
 
     override fun showPokemon(data: Pokemon) {
