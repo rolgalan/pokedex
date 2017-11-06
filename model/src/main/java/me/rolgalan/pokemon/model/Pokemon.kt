@@ -1,5 +1,7 @@
 package me.rolgalan.pokemon.model
 
+import java.io.Serializable
+
 /**
  * Created by Roldán Galán on 03/11/2017.
  */
@@ -12,7 +14,7 @@ data class Pokemon(
         val order: Int,
         val weight: Int,
         val types: List<PokemonType>,
-        val sprites: PokemonSprites?) {
+        val sprites: PokemonSprites?) : Serializable {
 
     fun getFrontImage(): String? {
         return sprites?.frontDefault
