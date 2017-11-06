@@ -38,8 +38,9 @@ class PokemonListActivity : AppCompatActivity(), DataInterface<Backpack> {
         toolbar.title = title
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Do you want to search  more pokemon?", Snackbar.LENGTH_LONG)
-                    .setAction("Hunt!", null).show()
+            Snackbar.make(view, "Do you want to remove all pokemon in your backpack?" +
+                    "\nThis action can NOT be undone.", Snackbar.LENGTH_LONG)
+                    .setAction("Remove", { removeBackpack() }).show()
         }
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -72,6 +73,11 @@ class PokemonListActivity : AppCompatActivity(), DataInterface<Backpack> {
                             loadBackpack()
                         })
                 .show()
+    }
+
+    private fun removeBackpack() {
+        DataProvider.instance.removeBackpack()
+        onBackPressed()
     }
 
     private fun setupRecyclerView(backpack: List<Pokemon>) {

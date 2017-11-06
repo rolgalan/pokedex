@@ -68,4 +68,9 @@ class DataProvider private constructor() {
                     }
                 })
     }
+
+    fun removeBackpack() {
+        backpack.clear()
+        //TODO remove on DB
+    }
 }
