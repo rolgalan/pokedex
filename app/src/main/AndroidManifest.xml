@@ -22,5 +22,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".backpack.PokemonListActivity"
+            android:label="@string/title_pokemon_list"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.rolgalan.pokemon.MainActivity" />
+        </activity>
+        <activity
+            android:name=".backpack.PokemonDetailActivity"
+            android:label="@string/title_pokemon_detail"
+            android:parentActivityName=".backpack.PokemonListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.rolgalan.pokemon.backpack.PokemonListActivity" />
+        </activity>
     </application>
+
 </manifest>

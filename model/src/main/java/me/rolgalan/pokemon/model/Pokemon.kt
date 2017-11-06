@@ -31,14 +31,14 @@ data class Pokemon(
 data class PokemonSprites(
         val backDefault: String?,
         val frontDefault: String?
-)
+) : Serializable
 
 data class PokemonType(
         val slot: Int,
         val type: NamedApiResource
-)
+) : Serializable
 
 data class NamedApiResource(
         val name: String,
         val url: String
-)
+) : Serializable
