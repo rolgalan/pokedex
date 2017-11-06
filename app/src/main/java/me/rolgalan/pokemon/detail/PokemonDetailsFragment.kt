@@ -27,7 +27,9 @@ class PokemonDetailsFragment : Fragment(), DetailsPresenter.DetailsView {
                 && arguments.getSerializable(ARG_POKEMON) is Pokemon) {
             val pokemon = arguments.getSerializable(ARG_POKEMON) as Pokemon
 
-            presenter = DetailsPresenter(this, pokemon, false)
+            val isCaptured = arguments.getBoolean(ARG_CAPTURED, false)
+
+            presenter = DetailsPresenter(this, pokemon, isCaptured)
         } else {
             throw RuntimeException(context.toString()
                     + " must include $ARG_POKEMON param in the Bundle")
@@ -47,6 +49,7 @@ class PokemonDetailsFragment : Fragment(), DetailsPresenter.DetailsView {
     companion object {
 
         private val ARG_POKEMON = "ARG_POKEMON"
+        private val ARG_CAPTURED = "ARG_CAPTURED"
 
         /**
          * Use this factory method to create a new instance of
@@ -55,11 +58,12 @@ class PokemonDetailsFragment : Fragment(), DetailsPresenter.DetailsView {
          * @param pokemon A Pokemon
          * @return A new instance of fragment PokemonDetailsFragment.
          */
-        fun newInstance(pokemon: Pokemon): PokemonDetailsFragment {
+        fun newInstance(pokemon: Pokemon, isCaptured: Boolean): PokemonDetailsFragment {
 
             val fragment = PokemonDetailsFragment()
             val args = Bundle()
             args.putSerializable(ARG_POKEMON, pokemon)
+            args.putBoolean(ARG_CAPTURED, isCaptured)
             fragment.arguments = args
             return fragment
         }

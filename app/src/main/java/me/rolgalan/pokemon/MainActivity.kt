@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), MainView {
         showMsg("A Wild ${data.name} appears!")
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
-        transaction.replace(R.id.main_container, PokemonDetailsFragment.newInstance(data))
+        transaction.replace(R.id.main_container, PokemonDetailsFragment.newInstance(data, false))
         transaction.commit()
         showFab()
     }
