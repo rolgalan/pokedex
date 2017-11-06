@@ -81,11 +81,15 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun showPokemonCatch(name: String) {
-        showSnackbarToCatchNewPokemon("You've catch $name.\n Do you want to search for a new pokemon?")
+        showSnackbarToCatchNewPokemon("You've catch $name.\nDo you want to search for a new pokemon?")
     }
 
     override fun showErrorNewPokemon(error: String) {
-        showSnackbarToCatchNewPokemon("$error\n Do you want to search again?")
+        showSnackbarToCatchNewPokemon("$error\nDo you want to search again?")
+    }
+
+    override fun showAlreadyInBackpack(name: String) {
+        showSnackbarToCatchNewPokemon("$name was already in your backpack!!\n Do you want to search again?")
     }
 
     fun showSnackbarToCatchNewPokemon(msg: String) {

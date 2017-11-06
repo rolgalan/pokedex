@@ -40,12 +40,12 @@ class MainPresenter(val view: MainView) {
                 object : DataInterface<Pokemon> {
                     override fun onReceived(data: Pokemon) {
                         currentPokemon = data
-                        displayPokemon(data)
+                        checkPokemon(data)
                     }
 
                     override fun onError(error: String) {
-                        onServerErrorNewPokemon(error)
                         Log.w("Pokemon", "getNewRandomPokemon error requesting data: $error")
+                        onServerErrorNewPokemon(error)
                     }
                 }
         )
@@ -69,8 +69,8 @@ class MainPresenter(val view: MainView) {
                     }
 
                     override fun onError(error: String) {
+                        Log.w("Pokemon", "catchPokemon error requesting data: $error")
                         onServerError(error)
-                        Log.w("Pokemon", "getNewRandomPokemon error requesting data: $error")
                     }
                 })
     }
@@ -84,6 +84,30 @@ class MainPresenter(val view: MainView) {
         } else {
             view.showMsg("The pokemon couldn't be catch! :( Try again!")
         }
+    }
+
+    private fun checkPokemon(pokemon: Pokemon) {
+        DataProvider.instance.hasPokemonInBackpack(pokemon.id,
+                object : DataInterface<Boolean> {
+                    override fun onReceived(data: Boolean) {
+                        if (data) {
+                            showAlreadyInBackpack(pokemon.name)
+                        } else {
+                            displayPokemon(pokemon)
+                        }
+                    }
+
+                    override fun onError(error: String) {
+                        Log.w("Pokemon", "hasPokemonInBackpack error requesting data: $error")
+                        onServerErrorNewPokemon(error)
+                    }
+                })
+    }
+
+    private fun showAlreadyInBackpack(name: String) {
+        view.hideLoading()
+        view.hideFab()
+        view.showAlreadyInBackpack(name)
     }
 
     private fun displayPokemon(data: Pokemon) {
@@ -125,5 +149,6 @@ interface MainView {
     fun hideFab()
     fun showFab()
     fun showPokemonCatch(name: String)
+    fun showAlreadyInBackpack(text: String)
     fun showErrorNewPokemon(name: String)
 }
