@@ -63,7 +63,7 @@ class PokemonListActivity : AppCompatActivity(), DataInterface<Backpack> {
     }
 
     override fun onReceived(data: Backpack) {
-        setupRecyclerView(data.values.toList())
+        setupRecyclerView(data.getSortedList())
     }
 
     override fun onError(error: String) {

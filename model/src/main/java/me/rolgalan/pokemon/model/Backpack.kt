@@ -45,4 +45,8 @@ class Backpack : HashMap<Int, Pokemon>() {
     fun getPokemon(id: Int): Pokemon? {
         return get(id)
     }
+
+    fun getSortedList(): List<Pokemon> {
+        return values.sortedBy { it.order }
+    }
 }
