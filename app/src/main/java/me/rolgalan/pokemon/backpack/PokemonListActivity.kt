@@ -9,7 +9,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_pokemon_list.*
 import kotlinx.android.synthetic.main.pokemon_list.*
-import me.rolgalan.pokemon.MainActivity
 import me.rolgalan.pokemon.R
 import me.rolgalan.pokemon.model.Backpack
 import me.rolgalan.pokemon.model.Pokemon
@@ -52,7 +51,7 @@ class PokemonListActivity : AppCompatActivity(), DataInterface<Backpack> {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            navigateUpTo(Intent(this, MainActivity::class.java))
+            onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item);

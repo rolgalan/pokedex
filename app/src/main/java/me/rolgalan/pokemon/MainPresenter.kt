@@ -34,6 +34,12 @@ class MainPresenter(val view: MainView) {
         )
     }
 
+    fun onRestart() {
+        if (currentPokemon == null) {
+            getNewPokemon()
+        }
+    }
+
     fun getNewPokemon() {
         view.showLoading()
         DataProvider.instance.getNewRandomPokemon(

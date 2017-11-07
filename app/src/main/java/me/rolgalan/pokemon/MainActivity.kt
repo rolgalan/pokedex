@@ -1,5 +1,6 @@
 package me.rolgalan.pokemon
 
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -25,6 +26,11 @@ class MainActivity : AppCompatActivity(), MainView {
         fab_ok.setOnClickListener { presenter.catchPokemon() }
         fab_no.setOnClickListener { presenter.getNewPokemon() }
         presenter.prepareView()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        presenter.onRestart()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -56,18 +62,21 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun showBackpack() {
-        hideFab()
         startActivity(PokemonListActivity.newIntent(this))
-        showSnackbarToCatchNewPokemon("Do you want to search for new pokemons?")
     }
 
     override fun showPokemon(data: Pokemon) {
+
         showMsg("A Wild ${data.name} appears!")
+        showFab()
+        if (isSafeManipulateView()) {
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
-        transaction.replace(R.id.main_container, PokemonDetailsFragment.newInstance(data, false))
-        transaction.commit()
-        showFab()
+            transaction.replace(R.id.main_container, PokemonDetailsFragment.newInstance(data, false))
+            //This could happen if a pokemon is being received while the user goes to the backpack
+            transaction.commitAllowingStateLoss()
+        }
+
     }
 
     override fun hideFab() {
@@ -99,5 +108,13 @@ class MainActivity : AppCompatActivity(), MainView {
                             presenter.getNewPokemon()
                         })
                 .show()
+    }
+
+    fun isSafeManipulateView(): Boolean {
+        return !isFinishing && if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            !isDestroyed
+        } else {
+            true
+        }
     }
 }
