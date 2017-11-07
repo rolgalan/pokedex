@@ -50,16 +50,18 @@ class DataProvider private constructor() {
     }
 
     fun catchPokemon(pokemon: Pokemon, listener: DataInterface<Boolean>) {
+        val capturedPokemon = pokemon.copy(capturedDate = System.currentTimeMillis())
+
         getBackpack(
                 object : DataInterface<Backpack> {
                     override fun onReceived(data: Backpack) {
-                        data.addPokemon(pokemon)
+                        data.addPokemon(capturedPokemon)
                         listener.onReceived(true)
                         saveBackpack(data)
                     }
 
                     override fun onError(error: String) {
-                        //retry?
+                        //retry getting backpack? This shouldn't happen...
                         listener.onReceived(false)
                     }
                 })
