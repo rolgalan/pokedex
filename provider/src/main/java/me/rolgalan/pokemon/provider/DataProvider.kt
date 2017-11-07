@@ -1,5 +1,6 @@
 package me.rolgalan.pokemon.provider
 
+import android.content.Context
 import me.rolgalan.pokemon.model.Backpack
 import me.rolgalan.pokemon.model.Pokemon
 import me.rolgalan.pokemon.provider.boundary.PokemonBoundary
@@ -17,6 +18,8 @@ class DataProvider private constructor() {
     private val backpack = Backpack()
     //TODO This value shouldn't be hardcoded -> It should be asked to the server
     private val TOTAL_POKEMON = 949
+
+    lateinit var context: Context
 
     private object Holder {
         val INSTANCE = DataProvider()
