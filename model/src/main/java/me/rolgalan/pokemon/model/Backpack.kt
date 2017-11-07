@@ -49,4 +49,8 @@ class Backpack : HashMap<Int, Pokemon>() {
     fun getSortedList(): List<Pokemon> {
         return values.sortedBy { it.order }
     }
+
+    fun addAll(other: Backpack) {
+        other.forEach { addPokemon(it.value) }
+    }
 }

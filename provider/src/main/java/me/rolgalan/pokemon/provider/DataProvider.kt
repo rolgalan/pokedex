@@ -1,6 +1,7 @@
 package me.rolgalan.pokemon.provider
 
 import android.content.Context
+import me.rolgalan.database.DatabasePrefs
 import me.rolgalan.pokemon.model.Backpack
 import me.rolgalan.pokemon.model.Pokemon
 import me.rolgalan.pokemon.provider.boundary.PokemonBoundary
@@ -15,7 +16,7 @@ import me.rolgalan.pokemon.server.ApiManager
 class DataProvider private constructor() {
 
     //Cached backpack
-    private val backpack = Backpack()
+    private var backpack: Backpack? = null
     //TODO This value shouldn't be hardcoded -> It should be asked to the server
     private val TOTAL_POKEMON = 949
 
@@ -41,15 +42,20 @@ class DataProvider private constructor() {
 
     fun getBackpack(listener: DataInterface<Backpack>) {
         //TODO load backpack from DB and cache it here in the backpack field
-        listener.onReceived(backpack)
+        if (backpack != null) {
+            listener.onReceived(backpack!!)
+        } else {
+            loadBackpackFromDB(listener)
+        }
     }
 
     fun catchPokemon(pokemon: Pokemon, listener: DataInterface<Boolean>) {
         getBackpack(
                 object : DataInterface<Backpack> {
                     override fun onReceived(data: Backpack) {
-                        backpack.addPokemon(pokemon)
+                        data.addPokemon(pokemon)
                         listener.onReceived(true)
+                        saveBackpack(data)
                     }
 
                     override fun onError(error: String) {
@@ -73,7 +79,31 @@ class DataProvider private constructor() {
     }
 
     fun removeBackpack() {
-        backpack.clear()
-        //TODO remove on DB
+        backpack?.clear()
+        DatabasePrefs(context).removeBackpack()
+    }
+
+    private fun saveBackpack(backpack: Backpack) {
+        //TODO Do async
+        DatabasePrefs(context).saveBackpack(backpack)
+    }
+
+    private fun loadBackpackFromDB(listener: DataInterface<Backpack>) {
+        //TODO Do async
+        val dbBackpack: Backpack? = DatabasePrefs(context).getBackpack()
+        if (dbBackpack != null) {
+            backpack?.clear()
+            getOrInitCachedBackpack().putAll(dbBackpack)
+            listener.onReceived(backpack!!)
+        } else {
+            listener.onReceived(getOrInitCachedBackpack())
+        }
+    }
+
+    private fun getOrInitCachedBackpack(): Backpack {
+        if (backpack == null) {
+            backpack = Backpack()
+        }
+        return backpack!!
     }
 }

@@ -39,6 +39,7 @@ dependencies {
     testImplementation "org.mockito:mockito-all:2.0.2-beta"
     androidTestImplementation "org.mockito:mockito-android:${MOCKITO_VERSION}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile project(path: ':database')
 }
 repositories {
     mavenCentral()
