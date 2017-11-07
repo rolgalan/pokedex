@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(), MainView {
         if (isSafeManipulateView()) {
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
-            transaction.replace(R.id.main_container, PokemonDetailsFragment.newInstance(data, false))
+            transaction.replace(R.id.main_container, PokemonDetailsFragment.newInstance(data))
             //This could happen if a pokemon is being received while the user goes to the backpack
             transaction.commitAllowingStateLoss()
         }

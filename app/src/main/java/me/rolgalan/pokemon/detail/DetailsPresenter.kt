@@ -1,13 +1,14 @@
 package me.rolgalan.pokemon.detail
 
-import me.rolgalan.pokemon.MainPresenter
 import me.rolgalan.pokemon.model.Pokemon
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 /**
  * Created by Roldán Galán on 06/11/2017.
  */
-class DetailsPresenter(val view: DetailsView, var pokemon : Pokemon, val isCaptured : Boolean) {
-
+class DetailsPresenter(val view: DetailsView, var pokemon : Pokemon) {
+    private val df : DateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
     /**
      * Call to this method after the [DetailsView] is created, to show the [Pokemon]
      * If there is a non-empty backpack, we should display a fragment with its content.
@@ -16,8 +17,8 @@ class DetailsPresenter(val view: DetailsView, var pokemon : Pokemon, val isCaptu
      */
     fun prepareView() {
         showCommonFields(pokemon)
-        view.showCapturedFields(isCaptured)
-        if (isCaptured){
+        view.showCapturedFields(pokemon.isCaptured())
+        if (pokemon.isCaptured()){
             showCapturedFields(pokemon)
         }
     }
@@ -33,7 +34,7 @@ class DetailsPresenter(val view: DetailsView, var pokemon : Pokemon, val isCaptu
     private fun showCapturedFields(pokemon: Pokemon) {
         view.setExperience(pokemon.baseExperience.toString())
         view.setType(pokemon.getType())
-        //TODO: view.setCapturedTime(pokemon.capturedTime)
+        view.setCapturedTime(df.format(pokemon.getCapturedDate()))
     }
 
     interface DetailsView{

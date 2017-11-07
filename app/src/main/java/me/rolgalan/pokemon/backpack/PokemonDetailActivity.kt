@@ -48,7 +48,7 @@ class PokemonDetailActivity : AppCompatActivity() {
             setTitle(pokemon.name)
 
             supportFragmentManager.beginTransaction()
-                    .add(R.id.pokemon_detail_container, PokemonDetailsFragment.newInstance(pokemon, true))
+                    .add(R.id.pokemon_detail_container, PokemonDetailsFragment.newInstance(pokemon))
                     .commit()
         }
     }
