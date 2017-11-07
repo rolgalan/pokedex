@@ -20,7 +20,7 @@ public class PokemonBoundary(listener: DataInterface<Pokemon>?) : DataBoundary<P
         val types = mapTypes(response.types)
         val sprites = mapSprites(response?.sprites)
         return Pokemon(response.id, response.name, response.baseExperience, response.height,
-                response.order, response.weight, types, sprites)
+                response.order, response.weight, types, sprites, null)
     }
 
     fun mapSprites(sprites: me.rolgalan.pokemon.server.model.PokemonSprites?): PokemonSprites {
