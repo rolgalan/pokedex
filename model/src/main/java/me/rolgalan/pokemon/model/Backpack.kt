@@ -2,13 +2,17 @@ package me.rolgalan.pokemon.model
 
 /**
  * Created by Roldán Galán on 05/11/2017.
+ * TODO consider stop extending from HashMap<Int, Pokemon>() and implement custom hashmap inner object
  */
+
 class Backpack : HashMap<Int, Pokemon>() {
+    val sortedList = mutableListOf<Pokemon>()
     /**
      * Adds a pokemon to the backpack
      */
     fun addPokemon(pokemon: Pokemon) {
         put(pokemon.id, pokemon)
+        calcSortedList()
     }
 
     /**
@@ -16,6 +20,7 @@ class Backpack : HashMap<Int, Pokemon>() {
      */
     fun removePokemon(id: Int) {
         remove(id)
+        calcSortedList()
     }
 
     /**
@@ -46,11 +51,24 @@ class Backpack : HashMap<Int, Pokemon>() {
         return get(id)
     }
 
-    fun getSortedList(): List<Pokemon> {
-        return values.sortedBy { it.order }
+    /**
+     * Creates a list with the Pokemon in their right order
+     * This is not optimal because is going to be generated each time a pokemon is added
+     * or removed, even if the list is not required in that moment (so it might be generated later).
+     *
+     * But this is not rocket-science and this operation is not going to be noticed by the user
+     * int this kind of appplication.
+     */
+    private fun calcSortedList() {
+        sortedList.clear()
+        sortedList.addAll(values.sortedBy { it.order })
     }
 
     fun addAll(other: Backpack) {
-        other.forEach { addPokemon(it.value) }
+        //Do put manually to not recalculate sortedList for each item
+        //other.forEach { addPokemon(it.value) }
+        other.forEach { put(it.value.id, it.value) }
+
+        calcSortedList()
     }
 }

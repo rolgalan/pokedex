@@ -15,8 +15,10 @@ import me.rolgalan.pokemon.server.ApiManager
  */
 class DataProvider private constructor() {
 
-    //Cached backpack
+    //Cached backpack. Use this variable to avoid reading from memory each time
     private var backpack: Backpack? = null
+    //TODO cached backpack for writing
+
     //TODO This value shouldn't be hardcoded -> It should be asked to the server
     private val TOTAL_POKEMON = 949
 
@@ -80,9 +82,34 @@ class DataProvider private constructor() {
                 })
     }
 
+    fun removePokemon(pokemon: Pokemon, listener: DataInterface<Boolean>) {
+        getBackpack(
+                object : DataInterface<Backpack> {
+                    override fun onReceived(data: Backpack) {
+                        data.removePokemon(pokemon)
+                        saveBackpack(data)
+                        listener.onReceived(true)
+                    }
+
+                    override fun onError(error: String) {
+                        //retry getting backpack? This shouldn't happen...
+                        listener.onError("Error getting backpack")
+                    }
+                })
+    }
+
     fun removeBackpack() {
-        backpack?.clear()
-        DatabasePrefs(context).removeBackpack()
+        getBackpack(
+                object : DataInterface<Backpack> {
+                    override fun onReceived(data: Backpack) {
+                        data.clear()
+                        DatabasePrefs(context).removeBackpack()
+                    }
+
+                    override fun onError(error: String) {
+                        //retry getting backpack? This shouldn't happen...
+                    }
+                })
     }
 
     private fun saveBackpack(backpack: Backpack) {
@@ -95,7 +122,7 @@ class DataProvider private constructor() {
         val dbBackpack: Backpack? = DatabasePrefs(context).getBackpack()
         if (dbBackpack != null) {
             backpack?.clear()
-            getOrInitCachedBackpack().putAll(dbBackpack)
+            getOrInitCachedBackpack().addAll(dbBackpack)
             listener.onReceived(backpack!!)
         } else {
             listener.onReceived(getOrInitCachedBackpack())

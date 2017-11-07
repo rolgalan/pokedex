@@ -10,12 +10,15 @@ import kotlinx.android.synthetic.main.activity_pokemon_detail.*
 import me.rolgalan.pokemon.R
 import me.rolgalan.pokemon.detail.PokemonDetailsFragment
 import me.rolgalan.pokemon.model.Pokemon
+import me.rolgalan.pokemon.provider.DataInterface
+import me.rolgalan.pokemon.provider.DataProvider
 
 /**
  * An activity representing a single [Pokemon] detail screen.
  * This activity uses  [PokemonDetailsFragment] to show the data
  */
 class PokemonDetailActivity : AppCompatActivity() {
+    lateinit var pokemon: Pokemon
 
     companion object {
 
@@ -34,18 +37,18 @@ class PokemonDetailActivity : AppCompatActivity() {
         setSupportActionBar(detail_toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            Snackbar.make(view, "Do you want to remove this pokemon from your backpack?" +
+                    "\nThis action can NOT be undone.", Snackbar.LENGTH_LONG)
+                    .setAction("Remove", { removePokemon() }).show()
         }
-
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState == null) {
 
-            val pokemon = intent.getSerializableExtra(ARG_POKEMON) as Pokemon
+            pokemon = intent.getSerializableExtra(ARG_POKEMON) as Pokemon
 
-            setTitle(pokemon.name)
+            title = pokemon.name
 
             supportFragmentManager.beginTransaction()
                     .add(R.id.pokemon_detail_container, PokemonDetailsFragment.newInstance(pokemon))
@@ -61,4 +64,30 @@ class PokemonDetailActivity : AppCompatActivity() {
                 }
                 else -> super.onOptionsItemSelected(item)
             }
+
+
+    private fun removePokemon() {
+        DataProvider.instance.removePokemon(pokemon,
+                object : DataInterface<Boolean> {
+                    override fun onReceived(isRemoved: Boolean) {
+                        if (isRemoved) {
+                            onPokemonRemoved()
+                        }
+                    }
+
+                    override fun onError(error: String) {
+                        onErrorRemoving()
+
+                    }
+                })
+    }
+
+    private fun onPokemonRemoved() {
+        onBackPressed()
+    }
+
+    private fun onErrorRemoving() {
+        Snackbar.make(fab, "Error removing ${pokemon.name}." +
+                " Please retry.", Snackbar.LENGTH_LONG).show()
+    }
 }

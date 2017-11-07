@@ -57,12 +57,17 @@ class PokemonListActivity : AppCompatActivity(), DataInterface<Backpack> {
         return super.onOptionsItemSelected(item);
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        pokemon_list.adapter?.notifyDataSetChanged()
+    }
+
     private fun loadBackpack() {
         DataProvider.instance.getBackpack(this)
     }
 
     override fun onReceived(data: Backpack) {
-        setupRecyclerView(data.getSortedList())
+        setupRecyclerView(data.sortedList)
     }
 
     override fun onError(error: String) {
