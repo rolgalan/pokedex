@@ -14,10 +14,50 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+    signingConfigs {
+
         release {
+            storeFile file('../mykey.keystore')
+            storePassword 'android'
+            keyAlias 'pokemon'
+            keyPassword 'android'
+        }
+    }
+
+    productFlavors {
+        product {
+            minSdkVersion 16
+        }
+        dev {
+            minSdkVersion 26
+        }
+    }
+
+    buildTypes {
+        debug {
             minifyEnabled false
+            shrinkResources false
+            debuggable true
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            debuggable false
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "app"
+
+    //We don't need certain variants
+    android.variantFilter { variant ->
+        if (variant.buildType.name == 'debug' && variant.getFlavors().get(0).name == 'product') {
+            variant.setIgnore(true);
+        }
+        if (variant.buildType.name == 'release' && variant.getFlavors().get(0).name == 'dev') {
+            variant.setIgnore(true);
         }
     }
 
