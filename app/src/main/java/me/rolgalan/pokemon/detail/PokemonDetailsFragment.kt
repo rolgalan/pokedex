@@ -23,9 +23,9 @@ class PokemonDetailsFragment : Fragment(), DetailsPresenter.DetailsView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null
-                && arguments.containsKey(ARG_POKEMON)
-                && arguments.getSerializable(ARG_POKEMON) is Pokemon) {
-            val pokemon = arguments.getSerializable(ARG_POKEMON) as Pokemon
+                && arguments!!.containsKey(ARG_POKEMON)
+                && arguments!!.getSerializable(ARG_POKEMON) is Pokemon) {
+            val pokemon = arguments!!.getSerializable(ARG_POKEMON) as Pokemon
 
             presenter = DetailsPresenter(this, pokemon)
         } else {
